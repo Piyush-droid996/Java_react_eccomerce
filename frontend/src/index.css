@@ -1,51 +1,8 @@
-* {
+html,
+body,
+#root {
+  width: 100%;
+  min-height: 100%;
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
-}
-
-.header {
-  background-color: #222;
-  padding: 1rem 0;
-}
-
-.container {
-  width: 90%;
-  max-width: 1200px;
-  margin: auto;
-
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.link {
-  text-decoration: none;
-  color: white;
-
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.brand-title {
-  font-size: 1.5rem;
-  font-weight: bold;
-}
-
-.nav ul {
-  list-style: none;
-
-  display: flex;
-  gap: 1.5rem;
-  align-items: center;
-}
-
-.nav-link {
-  text-decoration: none;
-  color: white;
-}
-
-.nav-link:hover {
-  color: #ffcc00;
 }

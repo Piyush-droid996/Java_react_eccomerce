@@ -1,15 +1,19 @@
-import Header from "./Components/Header";
+import Header from "./components/Header";
+import ClassHeader from "./components/ClassHeader";
+import Footer from "./components/footer/Footer";
+import React from "react";
+import Home from "./components/Home";
+//import "bootstrap/dist/css/bootstrap.min.css";
+//import "bootstrap/dist/js/bootstrap.bundle.min.js";
+import "./custom.scss";
 
-import Footer from "./Components/footer/Footer";
-import Home from "./Components/Home";
-import "./index.css";
 function App() {
   return (
-    <div>
+    <>
       <Header />
       <Home />
       <Footer />
-    </div>
+    </>
   );
 }
 

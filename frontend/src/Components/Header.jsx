@@ -1,50 +1,67 @@
+import "./Header.css";
+import {
+  faShoppingBasket,
+  faTags,
+  faBars,
+} from "@fortawesome/free-solid-svg-icons";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faShoppingBasket, faTags } from "@fortawesome/free-solid-svg-icons";
-function Header() {
+
+export default function Header() {
   return (
-    <header className="header">
-      <div className="container">
-        <a href="/" className="link">
-          <FontAwesomeIcon icon={faTags} className="fa-icon" />
-          <span className="brand-title">Eazy Stickers</span>
-        </a>
-        <nav className="nav">
-          <ul>
-            <li>
-              <a href="/" className="nav-link">
-                Home
-              </a>
-            </li>
-            <li>
-              <a href="/" className="nav-link">
-                About
-              </a>
-            </li>
-            <li>
-              <a href="/" className="nav-link">
-                Shop
-              </a>
-            </li>
-            <li>
-              <a href="/" className="nav-link">
-                Contact
-              </a>
-            </li>
-            <li>
-              <a href="/login" className="nav-link">
-                Login
-              </a>
-            </li>
-            <li>
-              <a href="/cart" className="nav-link">
-                <FontAwesomeIcon icon={faShoppingBasket} />
-              </a>
-            </li>
-          </ul>
-        </nav>
+    <>
+      <div className="top-bar">
+        🚚 Free Shipping on orders above $25 | Use code: EAZY25
       </div>
-    </header>
+
+      <header className="header">
+        <div className="container">
+          {/* Logo */}
+          <a href="/" className="logo">
+            <FontAwesomeIcon icon={faTags} />
+            <span>Eazy Stickers</span>
+          </a>
+
+          {/* Search */}
+          <div className="search-box">
+            <input type="text" placeholder="Search for stickers..." />
+            <button>Search</button>
+          </div>
+
+          {/* Navigation */}
+          <nav className="eazynav">
+            <ul>
+              <li>
+                <a href="/">Home</a>
+              </li>
+
+              <li>
+                <a href="/about">About</a>
+              </li>
+
+              <li>
+                <a href="/contact">Contact</a>
+              </li>
+
+              <li>
+                <a href="/login">Login</a>
+              </li>
+
+              <li>
+                <a href="/cart" className="cart-icon">
+                  <FontAwesomeIcon icon={faShoppingBasket} />
+
+                  <span className="cart-badge">0</span>
+                </a>
+              </li>
+            </ul>
+          </nav>
+
+          <button className="mobile-menu">
+            <FontAwesomeIcon icon={faBars} />
+          </button>
+        </div>
+      </header>
+    </>
   );
 }
-
-export default Header;

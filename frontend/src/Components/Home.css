@@ -1,0 +1,42 @@
+.home-container {
+  width: 100%;
+}
+
+/* Hero */
+
+.hero-section {
+  background: #f5f1ff;
+  padding: 80px 20px;
+  text-align: center;
+}
+
+.hero-content {
+  max-width: 800px;
+  margin: auto;
+}
+
+.hero-content h1 {
+  font-size: 3rem;
+  color: #5b21b6;
+  margin-bottom: 20px;
+}
+
+.hero-content p {
+  font-size: 1.2rem;
+  color: #555;
+  margin-bottom: 30px;
+}
+
+.shop-btn {
+  background: #5b21b6;
+  color: white;
+  border: none;
+  padding: 15px 35px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.shop-btn:hover {
+  background: #4c1d95;
+}
