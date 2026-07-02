@@ -1,0 +1,590 @@
+1. ProductController.java
+
+Place this comment above the class.
+
+/******************************************************************************
+ * PRODUCT CONTROLLER
+ ******************************************************************************
+
+/*
+ * =============================================================================
+ * INTRODUCTION
+ * =============================================================================
+ *
+ * ProductController is the entry point of the Product API.
+ *
+ * It receives HTTP requests from the frontend
+ * and delegates the business logic to the service layer.
+ *
+ * The controller should NOT contain business logic.
+ * Its responsibility is only to:
+ *
+ * • Receive requests
+ * • Validate input (if required)
+ * • Call the service layer
+ * • Return the response
+ *
+ * =============================================================================
+ * WHY DO WE NEED A CONTROLLER?
+ * =============================================================================
+ *
+ * The frontend cannot directly communicate with the database.
+ *
+ * Instead,
+ *
+ * React
+ *    │
+ *    ▼
+ * ProductController
+ *    │
+ *    ▼
+ * ProductService
+ *    │
+ *    ▼
+ * Repository
+ *    │
+ *    ▼
+ * Database
+ *
+ * Controller acts as a bridge between client and backend.
+ *
+ * =============================================================================
+ * ANNOTATIONS USED
+ * =============================================================================
+ *
+ * @RestController
+ * ----------------
+ * Marks this class as a REST API.
+ *
+ * @RequestMapping("/api/v1/products")
+ * -----------------------------------
+ * Base URL for all product endpoints.
+ *
+ * @CrossOrigin(...)
+ * ----------------
+ * Allows React application running on another port
+ * to access this API.
+ *
+ * =============================================================================
+ * COMPLETE EXECUTION FLOW
+ * =============================================================================
+ *
+ * React Application
+ *       │
+ *       ▼
+ * Axios GET Request
+ *       │
+ *       ▼
+ * ProductController
+ *       │
+ *       ▼
+ * ProductService
+ *       │
+ *       ▼
+ * ProductRepository
+ *       │
+ *       ▼
+ * MySQL Database
+ *       │
+ *       ▼
+ * Product List
+ *       │
+ *       ▼
+ * JSON Response
+ *
+ * =============================================================================
+ * CONCLUSION
+ * =============================================================================
+ *
+ * Controller handles incoming HTTP requests and delegates
+ * all business operations to the service layer.
+ */
+2. getProducts() Method
+/******************************************************************************
+ * GET PRODUCTS API
+ ******************************************************************************
+
+/*
+ * Endpoint:
+ * GET /api/v1/products
+ *
+ * Purpose:
+ * --------
+ * Returns all available products.
+ *
+ * Workflow:
+ *
+ * Client Request
+ *      │
+ *      ▼
+ * getProducts()
+ *      │
+ *      ▼
+ * ProductService.getProducts()
+ *      │
+ *      ▼
+ * Repository.fetchAll()
+ *      │
+ *      ▼
+ * Database
+ *      │
+ *      ▼
+ * Product List
+ *      │
+ *      ▼
+ * Converted into DTO
+ *      │
+ *      ▼
+ * Returned as JSON
+ *
+ * Response Type:
+ * List<ProductDto>
+ */
+3. ProductServiceImpl.java
+/******************************************************************************
+ * PRODUCT SERVICE
+ ******************************************************************************
+
+/*
+ * =============================================================================
+ * INTRODUCTION
+ * =============================================================================
+ *
+ * Service layer contains business logic.
+ *
+ * Controllers should not directly communicate with repositories.
+ *
+ * Instead,
+ *
+ * Controller
+ *      │
+ *      ▼
+ * Service
+ *      │
+ *      ▼
+ * Repository
+ *
+ * This separation follows Spring Boot layered architecture.
+ *
+ * =============================================================================
+ * WHY SERVICE LAYER?
+ * =============================================================================
+ *
+ * • Keeps Controller clean.
+ * • Business rules remain centralized.
+ * • Easy to test.
+ * • Easy to maintain.
+ * • Multiple controllers can reuse the same service.
+ *
+ * =============================================================================
+ * ANNOTATION
+ * =============================================================================
+ *
+ * @Service
+ *
+ * Registers this class as a Spring Service Bean.
+ *
+ * Spring automatically creates its object.
+ *
+ * =============================================================================
+ * CONCLUSION
+ * =============================================================================
+ *
+ * Service layer acts as the brain of the application.
+ */
+4. getProducts() in Service
+/******************************************************************************
+ * FETCH PRODUCTS FROM DATABASE
+ ******************************************************************************
+
+/*
+ * Purpose:
+ *
+ * Retrieves all products from the database
+ * and converts Entity objects into DTO objects.
+ *
+ * Why convert Entity to DTO?
+ *
+ * Entity represents database structure.
+ *
+ * DTO represents data sent to the client.
+ *
+ * Never expose database entities directly.
+ *
+ * Workflow:
+ *
+ * Repository.findAll()
+ *        │
+ *        ▼
+ * List<Product>
+ *        │
+ *        ▼
+ * Stream API
+ *        │
+ *        ▼
+ * map()
+ *        │
+ *        ▼
+ * transformToDTO()
+ *        │
+ *        ▼
+ * List<ProductDto>
+ */
+5. transformToDTO()
+/******************************************************************************
+ * ENTITY TO DTO CONVERSION
+ ******************************************************************************
+
+/*
+ * Purpose:
+ *
+ * Converts Product Entity into ProductDto.
+ *
+ * Why?
+ *
+ * Entity contains database information.
+ *
+ * DTO contains only the required information
+ * to be sent to the frontend.
+ *
+ * BeanUtils.copyProperties()
+ *
+ * Copies matching properties automatically.
+ *
+ * Example:
+ *
+ * Product
+ * ----------
+ * productId
+ * name
+ * price
+ * imageUrl
+ *
+ * ↓
+ *
+ * ProductDto
+ * ----------
+ * productId
+ * name
+ * price
+ * imageUrl
+ *
+ * Benefits:
+ *
+ * • Less code
+ * • Faster development
+ * • Easy maintenance
+ */
+6. ProductRepository.java
+/******************************************************************************
+ * PRODUCT REPOSITORY
+ ******************************************************************************
+
+/*
+ * Repository is responsible for database operations.
+ *
+ * We extend JpaRepository because it already provides:
+ *
+ * • findAll()
+ * • findById()
+ * • save()
+ * • delete()
+ * • deleteById()
+ * • count()
+ *
+ * Therefore,
+ * we do not need to write SQL queries manually.
+ *
+ * Spring Data JPA automatically generates them.
+ */
+7. Product.java Entity
+/******************************************************************************
+ * PRODUCT ENTITY
+ ******************************************************************************
+
+/*
+ * Entity represents the products table inside MySQL.
+ *
+ * Every object of Product corresponds
+ * to one database row.
+ *
+ * @Entity
+ * --------
+ * Marks this class as a JPA Entity.
+ *
+ * @Table(name="products")
+ *
+ * Maps this entity to the products table.
+ *
+ * @Id
+ *
+ * Marks the primary key.
+ *
+ * @GeneratedValue
+ *
+ * Auto-generates product IDs.
+ */
+8. ProductDto.java
+/******************************************************************************
+ * PRODUCT DTO
+ ******************************************************************************
+
+/*
+ * DTO = Data Transfer Object
+ *
+ * Purpose:
+ *
+ * Transfers data between backend and frontend.
+ *
+ * Why DTO?
+ *
+ * • Hide internal database fields.
+ * • Improve security.
+ * • Reduce unnecessary data transfer.
+ * • Separate database model from API model.
+ *
+ * Flow:
+ *
+ * Product Entity
+ *       │
+ *       ▼
+ * ProductDto
+ *       │
+ *       ▼
+ * JSON Response
+ *       │
+ *       ▼
+ * React Application
+ */
+9. Final Backend Flow (Add at End)
+/******************************************************************************
+ * COMPLETE BACKEND EXECUTION FLOW
+ ******************************************************************************
+
+/*
+ * User opens Home Page
+ *         │
+ *         ▼
+ * React calls GET /api/v1/products
+ *         │
+ *         ▼
+ * ProductController
+ *         │
+ *         ▼
+ * ProductService
+ *         │
+ *         ▼
+ * ProductRepository
+ *         │
+ *         ▼
+ * Hibernate
+ *         │
+ *         ▼
+ * MySQL Database
+ *         │
+ *         ▼
+ * Product Entity
+ *         │
+ *         ▼
+ * ProductDto
+ *         │
+ *         ▼
+ * JSON Response
+ *         │
+ *         ▼
+ * React receives products
+ *         │
+ *         ▼
+ * Search & Sort
+ *         │
+ *         ▼
+ * Product Cards displayed
+ */
+
+This style provides clear documentation while also demonstrating your understanding of Spring Boot layered architecture, JPA, DTOs, and the complete request lifecycle—topics that are commonly discussed in interviews.
+
+i am uisng h2 databse
+
+If you're using H2 Database instead of MySQL, you should update your backend explanation accordingly. The overall flow stays the same, but replace MySQL with H2 Database and explain why H2 is being used.
+
+Backend Architecture (H2 Database)
+/******************************************************************************
+ * BACKEND ARCHITECTURE
+ ******************************************************************************
+
+/*
+ * =============================================================================
+ * INTRODUCTION
+ * =============================================================================
+ *
+ * The backend is developed using Spring Boot following a layered architecture.
+ *
+ * The application uses an H2 in-memory database to store product information.
+ *
+ * H2 is a lightweight Java database mainly used for:
+ *
+ * • Learning Spring Boot
+ * • Development
+ * • Unit Testing
+ * • Prototype Applications
+ *
+ * Since H2 runs completely in memory, no external database installation
+ * (like MySQL or PostgreSQL) is required.
+ *
+ * =============================================================================
+ * WHY H2 DATABASE?
+ * =============================================================================
+ *
+ * Advantages:
+ *
+ * ✓ Lightweight
+ * ✓ Fast
+ * ✓ Easy to configure
+ * ✓ No installation required
+ * ✓ Embedded inside the application
+ * ✓ Ideal for development and testing
+ *
+ * When the Spring Boot application starts,
+ * H2 creates the database automatically.
+ *
+ * When the application stops,
+ * the in-memory database is removed.
+ */
+Controller Explanation
+/******************************************************************************
+ * PRODUCT CONTROLLER
+ ******************************************************************************
+
+/*
+ * Purpose:
+ * --------
+ * ProductController exposes REST APIs to the frontend.
+ *
+ * It receives HTTP requests from React and forwards them
+ * to the Service layer.
+ *
+ * The controller should NOT contain business logic.
+ *
+ * Responsibilities:
+ *
+ * • Receive HTTP Requests
+ * • Call Service Layer
+ * • Return JSON Response
+ *
+ * =============================================================================
+ * COMPLETE EXECUTION FLOW
+ * =============================================================================
+ *
+ * React Application
+ *        │
+ *        ▼
+ * Axios GET Request
+ *        │
+ *        ▼
+ * ProductController
+ *        │
+ *        ▼
+ * ProductService
+ */
+Service Explanation
+/******************************************************************************
+ * PRODUCT SERVICE
+ ******************************************************************************
+
+/*
+ * Purpose:
+ * --------
+ * The Service layer contains the business logic.
+ *
+ * It acts as an intermediate layer between
+ * Controller and Repository.
+ *
+ * Responsibilities:
+ *
+ * • Fetch products
+ * • Convert Entity into DTO
+ * • Apply business rules (if required)
+ *
+ * Why use Service Layer?
+ *
+ * • Better code organization
+ * • Reusable logic
+ * • Easier maintenance
+ * • Separation of concerns
+ */
+Repository Explanation
+/******************************************************************************
+ * PRODUCT REPOSITORY
+ ******************************************************************************
+
+/*
+ * Repository is responsible for communicating
+ * with the H2 Database.
+ *
+ * We extend JpaRepository because Spring Data JPA
+ * automatically provides built-in database operations.
+ *
+ * Available methods:
+ *
+ * • findAll()
+ * • findById()
+ * • save()
+ * • delete()
+ * • deleteById()
+ *
+ * Therefore,
+ * no SQL query needs to be written for these operations.
+ */
+Entity Explanation
+/******************************************************************************
+ * PRODUCT ENTITY
+ ******************************************************************************
+
+/*
+ * Entity represents the "products" table inside H2 Database.
+ *
+ * Every Product object represents one row in the table.
+ *
+ * Example:
+ *
+ * Product Object
+ *        │
+ *        ▼
+ * Product Table
+ *        │
+ *        ▼
+ * H2 Database
+ *
+ * Spring Data JPA automatically maps
+ * Java objects to database records.
+ */
+DTO Explanation
+/******************************************************************************
+ * PRODUCT DTO
+ ******************************************************************************
+
+/*
+ * DTO = Data Transfer Object
+ *
+ * DTO transfers only the required information
+ * from backend to frontend.
+ *
+ * Why DTO?
+ *
+ * • Improves security
+ * • Hides internal Entity structure
+ * • Reduces unnecessary data transfer
+ *
+ * Flow:
+ *
+ * Product Entity
+ *       │
+ *       ▼
+ * ProductDto
+ *       │
+ *       ▼
+ * JSON Response
+ *       │
+ *       ▼
+ * React Application
+ */
