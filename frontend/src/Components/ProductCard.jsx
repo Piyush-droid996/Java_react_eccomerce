@@ -1,26 +1,27 @@
 import "./ProductCard.css";
-import React from "react";
 import Price from "./Price";
 
 export default function ProductCard({ product }) {
   return (
-    <div className="product-card">
+    <article className="product-card">
       <div className="product-card-image-container">
         <img
           src={product.imageUrl}
           alt={product.name}
           className="product-card-image"
+          loading="lazy"
         />
       </div>
+
       <div className="product-card-details">
-        <h2 className="product-card-title">{product.name}</h2>
+        <h3 className="product-card-title">{product.name}</h3>
+
         <p className="product-card-description">{product.description}</p>
+
         <div className="product-card-footer">
-          <div className="product-card-price">
-            <Price currency="$" price={product.price} />
-          </div>
+          <Price currency="$" price={product.price} />
         </div>
       </div>
-    </div>
+    </article>
   );
 }

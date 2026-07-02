@@ -11,30 +11,26 @@ import com.eazybytes.eazystore.entity.Product;
 import com.eazybytes.eazystore.repository.ProductRepository;
 import com.eazybytes.eazystore.service.IProductService;
 
-import lombok.RequiredArgsConstructor;
-
 @Service
 
-public class ProductServiceImpl  implements IProductService{
-	
-	private final ProductRepository productRepository;
-	public ProductServiceImpl(ProductRepository productRepository)
-	{
-		this.productRepository=productRepository;
-	}
+public class ProductServiceImpl implements IProductService {
 
-	@Override
-	public List<ProductDto> getProducts() {
-		return productRepository.findAll()
-				.stream().map(this::transformToDTO).collect(Collectors.toList());
-	}
-	
-	private ProductDto transformToDTO(Product product) {
-	    ProductDto productDto = new ProductDto();
-	    BeanUtils.copyProperties(product, productDto);
-	    return productDto;
-	}
-	
-	
+    private final ProductRepository productRepository;
+
+    public ProductServiceImpl(ProductRepository productRepository) {
+        this.productRepository = productRepository;
+    }
+
+    @Override
+    public List<ProductDto> getProducts() {
+        return productRepository.findAll()
+                .stream().map(this::transformToDTO).collect(Collectors.toList());
+    }
+
+    private ProductDto transformToDTO(Product product) {
+        ProductDto productDto = new ProductDto();
+        BeanUtils.copyProperties(product, productDto);
+        return productDto;
+    }
 
 }
