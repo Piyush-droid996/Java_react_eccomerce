@@ -33,43 +33,53 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                                     FilterChain filterChain)
             throws ServletException, IOException {
 
-        // Read Authorization Header
+        System.out.println("====================================");
+        System.out.println("Incoming Request : " + request.getRequestURI());
+
         final String authHeader = request.getHeader("Authorization");
 
-        // If Authorization header is missing, continue request
+        System.out.println("Authorization Header : " + authHeader);
+
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+
+            System.out.println("No JWT Found");
+            System.out.println("====================================");
 
             filterChain.doFilter(request, response);
             return;
         }
 
-        // Remove "Bearer "
         String jwt = authHeader.substring(7);
 
-        // Extract email from JWT
         String username = jwtService.extractUsername(jwt);
 
-        // Load user from database
-        if (username != null) {
+        System.out.println("Username From Token : " + username);
 
-        	UserDetails userDetails =
-        	        userDetailsService.loadUserByUsername(username);
+        if (username != null &&
+                SecurityContextHolder.getContext().getAuthentication() == null) {
 
-        	if (jwtService.isTokenValid(jwt, userDetails)) {
+            UserDetails userDetails =
+                    userDetailsService.loadUserByUsername(username);
 
-        	    UsernamePasswordAuthenticationToken authentication =
-        	            new UsernamePasswordAuthenticationToken(
-        	                    userDetails,
-        	                    null,
-        	                    userDetails.getAuthorities()
-        	            );
+            if (jwtService.isTokenValid(jwt, userDetails)) {
 
-        	    SecurityContextHolder.getContext()
-        	            .setAuthentication(authentication);
-        	}
+                UsernamePasswordAuthenticationToken authentication =
+                        new UsernamePasswordAuthenticationToken(
+                                userDetails,
+                                null,
+                                userDetails.getAuthorities());
 
-            // JWT validation and SecurityContext will be added next
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+                System.out.println("Authorities: " + userDetails.getAuthorities());
+                System.out.println("Authentication: " + SecurityContextHolder.getContext().getAuthentication());
+                System.out.println("JWT Authentication Success");
+            } else {
+
+                System.out.println("JWT Invalid");
+            }
         }
+
+        System.out.println("====================================");
 
         filterChain.doFilter(request, response);
     }

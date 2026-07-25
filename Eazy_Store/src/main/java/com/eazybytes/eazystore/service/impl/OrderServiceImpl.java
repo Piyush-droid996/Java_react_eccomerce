@@ -14,7 +14,9 @@ import com.eazybytes.eazystore.entity.Order;
 import com.eazybytes.eazystore.entity.OrderItem;
 import com.eazybytes.eazystore.entity.User;
 import com.eazybytes.eazystore.exception.UserNotFoundException;
+import com.eazybytes.eazystore.dto.OrderItemResponse;
 import com.eazybytes.eazystore.dto.OrderResponse;
+import com.eazybytes.eazystore.dto.OrderStatusRequest;
 import com.eazybytes.eazystore.repository.CartRepository;
 import com.eazybytes.eazystore.repository.OrderItemRepository;
 import com.eazybytes.eazystore.repository.OrderRepository;
@@ -98,13 +100,30 @@ public class OrderServiceImpl implements OrderService {
         // Clear Cart
         cartRepository.deleteAll(cartItems);
 
-        // Response
         OrderResponse response = new OrderResponse();
 
         response.setOrderId(savedOrder.getOrderId());
         response.setStatus(savedOrder.getStatus());
         response.setTotalAmount(savedOrder.getTotalAmount());
         response.setCreatedAt(savedOrder.getCreatedAt());
+
+        response.setCustomerName(user.getFirstName());
+        response.setCustomerEmail(user.getEmail());
+
+        List<OrderItem> orderItems = orderItemRepository.findByOrder(savedOrder);
+
+        List<OrderItemResponse> itemResponses = orderItems.stream()
+                .map(item -> {
+                    OrderItemResponse dto = new OrderItemResponse();
+                    dto.setProductId(item.getProduct().getProductId());
+                    dto.setProductName(item.getProduct().getName());
+                    dto.setQuantity(item.getQuantity());
+                    dto.setPrice(item.getPrice());
+                    return dto;
+                })
+                .toList();
+
+        response.setItems(itemResponses);
 
         return response;
     }
@@ -135,6 +154,27 @@ public class OrderServiceImpl implements OrderService {
 
                 }).toList();
     }
+    @Override
+    public List<OrderResponse> getAllOrders() {
+
+        return orderRepository.findAll()
+                .stream()
+                .map(order -> {
+
+                    OrderResponse response = new OrderResponse();
+
+                    response.setOrderId(order.getOrderId());
+                    response.setStatus(order.getStatus());
+                    response.setTotalAmount(order.getTotalAmount());
+                    response.setCreatedAt(order.getCreatedAt());
+                    response.setCustomerName(order.getUser().getFirstName());
+                    response.setCustomerEmail(order.getUser().getEmail());
+
+                    return response;
+
+                }).toList();
+    }
+
 
     @Override
     public OrderResponse getOrderById(Long id) {
@@ -150,6 +190,53 @@ public class OrderServiceImpl implements OrderService {
         response.setTotalAmount(order.getTotalAmount());
         response.setCreatedAt(order.getCreatedAt());
 
+        // Customer Details
+        response.setCustomerName(order.getUser().getFirstName());
+        response.setCustomerEmail(order.getUser().getEmail());
+
+        // Order Items
+        List<OrderItem> orderItems = orderItemRepository.findByOrder(order);
+
+        List<OrderItemResponse> items = new ArrayList<>();
+
+        for (OrderItem orderItem : orderItems) {
+
+            OrderItemResponse item = new OrderItemResponse();
+
+            item.setProductId(orderItem.getProduct().getProductId());
+            item.setProductName(orderItem.getProduct().getName());
+            item.setQuantity(orderItem.getQuantity());
+            item.setPrice(orderItem.getPrice());
+
+            items.add(item);
+        }
+
+        response.setItems(items);
+
         return response;
     }
+    @Override
+    public OrderResponse updateOrderStatus(Long orderId,
+                                           OrderStatusRequest request) {
+
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() ->
+                        new RuntimeException("Order not found"));
+
+        order.setStatus(request.getStatus());
+
+        Order updatedOrder = orderRepository.save(order);
+
+        OrderResponse response = new OrderResponse();
+
+        response.setOrderId(updatedOrder.getOrderId());
+        response.setStatus(updatedOrder.getStatus());
+        response.setTotalAmount(updatedOrder.getTotalAmount());
+        response.setCreatedAt(updatedOrder.getCreatedAt());
+        response.setCustomerName(updatedOrder.getUser().getFirstName());
+        response.setCustomerEmail(updatedOrder.getUser().getEmail());
+
+        return response;
+    }
+   
 }

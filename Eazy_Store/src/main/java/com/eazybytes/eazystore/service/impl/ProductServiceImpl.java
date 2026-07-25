@@ -14,6 +14,10 @@ import com.eazybytes.eazystore.exception.ProductNotFoundException;
 import com.eazybytes.eazystore.repository.CategoryRepository;
 import com.eazybytes.eazystore.repository.ProductRepository;
 import com.eazybytes.eazystore.service.IProductService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 @Service
 public class ProductServiceImpl implements IProductService {
@@ -77,14 +81,12 @@ public class ProductServiceImpl implements IProductService {
         return response;
     }
 
-    @Override
-    public List<ProductResponse> getProducts() {
-
-        return productRepository.findAll()
-                .stream()
-                .map(this::mapToResponse)
-                .toList();
-    }
+	/*
+	 * @Override public List<ProductResponse> getProducts() {
+	 * 
+	 * return productRepository.findAll() .stream() .map(this::mapToResponse)
+	 * .toList(); }
+	 */
 
     @Override
     public ProductResponse getProductById(Long id) {
@@ -134,6 +136,31 @@ public class ProductServiceImpl implements IProductService {
                                 "Product not found with id : " + id));
 
         productRepository.delete(product);
+    }
+    @Override
+    public Page<ProductResponse> getProducts(
+            String keyword,
+            int page,
+            int size,
+            String sortBy,
+            String direction) {
+
+        Sort sort = direction.equalsIgnoreCase("desc")
+                ? Sort.by(sortBy).descending()
+                : Sort.by(sortBy).ascending();
+
+        Pageable pageable = PageRequest.of(page, size, sort);
+
+        Page<Product> productPage;
+
+        if (keyword == null || keyword.isBlank()) {
+            productPage = productRepository.findAll(pageable);
+        } else {
+            productPage = productRepository
+                    .findByNameContainingIgnoreCase(keyword, pageable);
+        }
+
+        return productPage.map(this::mapToResponse);
     }
     private ProductResponse mapToResponse(Product product) {
 

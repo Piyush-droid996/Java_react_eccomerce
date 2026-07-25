@@ -1,17 +1,7 @@
-import Header from "./Components/Header";
-import Home from "./Components/Home";
-import Footer from "./Components/footer/Footer";
-
-import "./custom.scss";
+import AppRoutes from "./routes/AppRoutes";
 
 function App() {
-  return (
-    <>
-      <Header />
-      <Home />
-      <Footer />
-    </>
-  );
+  return <AppRoutes />;
 }
 
 export default App;

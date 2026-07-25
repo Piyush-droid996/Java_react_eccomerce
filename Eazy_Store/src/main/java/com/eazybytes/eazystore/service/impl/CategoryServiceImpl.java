@@ -91,6 +91,24 @@ public class CategoryServiceImpl implements CategoryService {
         return response;
     }
     @Override
+    public CategoryResponse getCategoryById(Long id) {
+
+        Category category = categoryRepository.findById(id)
+                .orElseThrow(() ->
+                        new CategoryNotFoundException(
+                                "Category not found with id: " + id));
+
+        CategoryResponse response = new CategoryResponse();
+
+        response.setCategoryId(category.getCategoryId());
+        response.setName(category.getName());
+        response.setDescription(category.getDescription());
+        response.setCreatedAt(category.getCreatedAt());
+        response.setUpdatedAt(category.getUpdatedAt());
+
+        return response;
+    }
+    @Override
     public void deleteCategory(Long id) {
 
         Category category = categoryRepository.findById(id)

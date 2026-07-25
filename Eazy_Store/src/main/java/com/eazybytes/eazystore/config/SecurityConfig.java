@@ -4,11 +4,13 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+
 import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -17,6 +19,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import com.eazybytes.eazystore.security.CustomUserDetailsService;
 import com.eazybytes.eazystore.security.JwtAuthenticationFilter;
+
 @Configuration
 public class SecurityConfig {
 
@@ -65,53 +68,63 @@ public class SecurityConfig {
             throws Exception {
 
         http
+            .cors(Customizer.withDefaults())
             .csrf(csrf -> csrf.disable())
+
+            // Stateless JWT Authentication
+            .sessionManagement(session ->
+                    session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            )
+
             .authorizeHttpRequests(auth -> auth
 
-            	    .requestMatchers("/api/v1/auth/**").permitAll()
+                    .requestMatchers("/api/v1/auth/**").permitAll()
 
-            	    // Swagger
-            	    .requestMatchers(
-            	            "/v3/api-docs/**",
-            	            "/swagger-ui/**",
-            	            "/swagger-ui.html"
-            	    ).permitAll()
-            	    // Product APIs
-            	    .requestMatchers(HttpMethod.GET, "/api/v1/products/**")
-            	        .hasAnyRole("USER", "ADMIN")
+                    .requestMatchers(
+                            "/v3/api-docs/**",
+                            "/swagger-ui/**",
+                            "/swagger-ui.html"
+                    ).permitAll()
 
-            	    .requestMatchers(HttpMethod.POST, "/api/v1/products/**")
-            	        .hasRole("ADMIN")
+                    .requestMatchers("/api/v1/admin/**").hasRole("ADMIN")
+                    // Product APIs
+                    .requestMatchers(HttpMethod.GET, "/api/v1/products/**")
+                    .permitAll()
 
-            	    .requestMatchers(HttpMethod.PUT, "/api/v1/products/**")
-            	        .hasRole("ADMIN")
+                    .requestMatchers(HttpMethod.POST, "/api/v1/products/**")
+                    .hasRole("ADMIN")
 
-            	    .requestMatchers(HttpMethod.DELETE, "/api/v1/products/**")
-            	        .hasRole("ADMIN")
-            	        
-            	        
-            	     //cart api
-            	        .requestMatchers("/api/v1/cart/**")
-            	        .hasAnyRole("USER", "ADMIN")
-            	      //order api
-            	        .requestMatchers("/api/v1/orders/**")
-            	        .hasAnyRole("USER","ADMIN")
+                    .requestMatchers(HttpMethod.PUT, "/api/v1/products/**")
+                    .hasRole("ADMIN")
 
-            	    // Category APIs
-            	    .requestMatchers(HttpMethod.GET, "/api/v1/categories/**")
-            	        .hasAnyRole("USER", "ADMIN")
+                    .requestMatchers(HttpMethod.DELETE, "/api/v1/products/**")
+                    .hasRole("ADMIN")
 
-            	    .requestMatchers(HttpMethod.POST, "/api/v1/categories/**")
-            	        .hasRole("ADMIN")
+                    // Category APIs
+                    .requestMatchers(HttpMethod.GET, "/api/v1/categories/**")
+                    .permitAll()
 
-            	    .requestMatchers(HttpMethod.PUT, "/api/v1/categories/**")
-            	        .hasRole("ADMIN")
+                    .requestMatchers(HttpMethod.POST, "/api/v1/categories/**")
+                    .hasRole("ADMIN")
 
-            	    .requestMatchers(HttpMethod.DELETE, "/api/v1/categories/**")
-            	        .hasRole("ADMIN")
+                    .requestMatchers(HttpMethod.PUT, "/api/v1/categories/**")
+                    .hasRole("ADMIN")
 
-            	    .anyRequest().authenticated()
-            	)
+                    .requestMatchers(HttpMethod.DELETE, "/api/v1/categories/**")
+                    .hasRole("ADMIN")
+
+                    // Cart APIs
+                    .requestMatchers("/api/v1/cart/**")
+                    .hasAnyRole("USER", "ADMIN")
+
+                    // Order APIs
+                    .requestMatchers("/api/v1/orders/**")
+                    .permitAll()
+
+                    .anyRequest()
+                    .authenticated()
+            )
+
             .addFilterBefore(
                     jwtAuthenticationFilter,
                     UsernamePasswordAuthenticationFilter.class

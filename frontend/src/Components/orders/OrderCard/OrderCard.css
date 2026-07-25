@@ -1,0 +1,36 @@
+.order-card {
+  border: none;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+}
+
+.order-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+}
+
+.order-id {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.order-price {
+  font-size: 18px;
+  font-weight: 700;
+  color: #0d6efd;
+}
+
+.order-status {
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 20px;
+  background-color: #198754;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.order-date {
+  color: #6c757d;
+  font-size: 14px;
+}
