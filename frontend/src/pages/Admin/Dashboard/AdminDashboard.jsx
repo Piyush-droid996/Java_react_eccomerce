@@ -5,7 +5,7 @@ import "./AdminDashboard.css";
 
 function AdminDashboard() {
   const [dashboard, setDashboard] = useState(null);
-
+  console.log("admin");
   useEffect(() => {
     loadDashboard();
   }, []);
