@@ -5,7 +5,12 @@ import "./AdminDashboard.css";
 
 function AdminDashboard() {
   const [dashboard, setDashboard] = useState(null);
+<<<<<<< HEAD
+  console.log("admindashboard     :>>>11");
+
+=======
   console.log("admin");
+>>>>>>> faa06d943e7e77f9d0296c98112ac9e8dc984a33
   useEffect(() => {
     loadDashboard();
   }, []);
