@@ -85,4 +85,10 @@ public class ProductController {
                 sortBy,
                 direction);
     }
+    @GetMapping("/category/{categoryId}")
+    public List<ProductResponse> getProductsByCategory(
+            @PathVariable Long categoryId) {
+
+        return productService.getProductsByCategory(categoryId);
+    }
 }

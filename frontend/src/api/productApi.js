@@ -24,6 +24,9 @@ export const getProductById = (id) => {
 export const createProduct = (product) => {
   return apiClient.post("/products", product);
 };
+export const getProductsByCategory = (categoryId) => {
+  return apiClient.get(`/products/category/${categoryId}`);
+};
 
 export const updateProduct = (id, product) => {
   return apiClient.put(`/products/${id}`, product);

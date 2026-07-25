@@ -162,6 +162,14 @@ public class ProductServiceImpl implements IProductService {
 
         return productPage.map(this::mapToResponse);
     }
+    @Override
+    public List<ProductResponse> getProductsByCategory(Long categoryId) {
+
+        return productRepository.findByCategoryCategoryId(categoryId)
+                .stream()
+                .map(this::mapToResponse)
+                .toList();
+    }
     private ProductResponse mapToResponse(Product product) {
 
         ProductResponse response = new ProductResponse();
@@ -181,4 +189,5 @@ public class ProductServiceImpl implements IProductService {
 
         return response;
     }
+    
 }

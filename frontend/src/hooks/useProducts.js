@@ -1,22 +1,22 @@
 import { useEffect, useState } from "react";
 import { getAllProducts } from "../api/productApi";
 
-export default function useProducts(
+function useProducts(
   keyword = "",
   page = 0,
-  size = 5,
+  size = 8,
   sortBy = "productId",
   direction = "asc",
 ) {
   const [products, setProducts] = useState([]);
   const [totalPages, setTotalPages] = useState(0);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    fetchProducts();
+    loadProducts();
   }, [keyword, page, size, sortBy, direction]);
 
-  async function fetchProducts() {
+  async function loadProducts() {
     try {
       setLoading(true);
 
@@ -41,6 +41,8 @@ export default function useProducts(
     products,
     totalPages,
     loading,
-    refresh: fetchProducts,
+    refresh: loadProducts,
   };
 }
+
+export default useProducts;

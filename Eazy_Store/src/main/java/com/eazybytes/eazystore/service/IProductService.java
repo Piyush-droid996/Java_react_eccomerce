@@ -23,5 +23,5 @@ public interface IProductService {
             String sortBy,
             String direction
     );
-
+	List<ProductResponse> getProductsByCategory(Long categoryId);
 }
