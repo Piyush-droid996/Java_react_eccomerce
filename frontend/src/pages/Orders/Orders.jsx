@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import orderService from "../../services/orderService";
-import OrderCard from "../../Components/orders/OrderCard/OrderCard";
+import OrderCard from "../../components/orders/OrderCard/OrderCard";
 function Orders() {
   const [orders, setOrders] = useState([]);
 
