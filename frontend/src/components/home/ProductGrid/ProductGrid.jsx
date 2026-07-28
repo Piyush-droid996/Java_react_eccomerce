@@ -2,21 +2,23 @@ import ProductCard from "../ProductCard/ProductCard";
 
 function ProductGrid({ products }) {
   return (
-    <div className="row">
-      {products.length > 0 ? (
-        products.map((product) => (
-          <div
-            key={product.productId}
-            className="col-lg-3 col-md-4 col-sm-6 mb-4"
-          >
-            <ProductCard product={product} />
+    <div className="container-fluid">
+      <div className="row g-4 justify-content-center">
+        {products.length > 0 ? (
+          products.map((product) => (
+            <div
+              key={product.productId}
+              className="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3"
+            >
+              <ProductCard product={product} />
+            </div>
+          ))
+        ) : (
+          <div className="col-12 text-center py-5">
+            <h5>No Products Found</h5>
           </div>
-        ))
-      ) : (
-        <div className="col-12 text-center">
-          <p>No Products Found</p>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 }
