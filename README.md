@@ -21,6 +21,8 @@ Running locally using Docker
 (Add screenshots here)
 **<img width="1898" height="918" alt="image" src="https://github.com/user-attachments/assets/3c3de367-c62d-442a-a6df-6266ce24b8e4" />
 <img width="1654" height="738" alt="image" src="https://github.com/user-attachments/assets/a9338c45-8563-4d5b-82ad-d4fa16f1ba01" />
+<img width="1513" height="410" alt="image" src="https://github.com/user-attachments/assets/27b6828e-381c-461a-915f-0f9fb2fdfb4f" />
+
 
 **
 - Home Page
