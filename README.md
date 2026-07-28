@@ -1,14 +1,41 @@
-# 🛒 EazyStore Backend
+# 🛒 EazyStore - Full Stack E-Commerce Application
 
-A production-inspired E-Commerce Backend built using **Java, Spring Boot, Spring Security, JWT Authentication, Spring Data JPA, Hibernate, and MySQL**.
+A production-inspired Full Stack E-Commerce application built using Java, Spring Boot, React, MySQL, Docker and JWT Authentication.
 
-This project demonstrates secure authentication, role-based authorization, RESTful APIs, layered architecture, entity relationships, and common e-commerce functionalities.
+The project demonstrates enterprise-level architecture, secure authentication, REST APIs, Docker containerization, responsive frontend design, and complete shopping workflows.
+
+---
+
+# 🚀 Live Demo
+
+Frontend:
+https://java-react-eccomerce.vercel.app/
+
+Backend:
+Running locally using Docker
+
+---
+
+# 📸 Project Preview
+
+(Add screenshots here)
+
+- Home Page
+- Product Listing
+- Product Details
+- Login
+- Register
+- Cart
+- Orders
+- Admin Dashboard
 
 ---
 
 # 🚀 Tech Stack
 
-- Java 17
+## Backend
+
+- Java 21
 - Spring Boot
 - Spring Security
 - JWT Authentication
@@ -17,90 +44,171 @@ This project demonstrates secure authentication, role-based authorization, RESTf
 - MySQL
 - Maven
 - REST APIs
-- Bean Validation
+
+---
+
+## Frontend
+
+- React 19
+- Vite
+- React Router
+- Bootstrap 5
+- CSS3
+- Axios
+- Context API
+
+---
+
+## Database
+
+- MySQL 8.4
+
+---
+
+## DevOps
+
+- Docker
+- Docker Compose
+- Nginx
+- Multi-stage Docker Build
 
 ---
 
 # ✨ Features
 
-## Authentication & Authorization
+## Authentication
 
 - User Registration
 - User Login
+- JWT Authentication
 - BCrypt Password Encryption
-- JWT Token Generation
-- JWT Authentication Filter
 - Stateless Authentication
-- Role-Based Authorization
-- Spring Security Integration
+- Role Based Authorization
+- Protected Routes
 
 ---
 
 ## Product Management
 
-- Create Product
-- Get All Products
-- Get Product By Id
-- Update Product
-- Delete Product
+- View Products
+- Product Details
+- Product Categories
+- Popular Products
+- Responsive Product Cards
 
 ---
 
 ## Category Management
 
-- Create Category
-- Get Categories
-- Update Category
-- Delete Category
+- View Categories
+- Admin CRUD Operations
 
 ---
 
-## Cart Management
+## Shopping Cart
 
-- Add Product to Cart
-- View Cart
-- Update Cart Quantity
-- Remove Cart Item
+- Add to Cart
+- Update Quantity
+- Remove Items
+- View Cart Summary
 
 ---
 
-## Order Management
+## Orders
 
 - Place Order
-- View Orders
-- View Order Details
-- Convert Cart into Order
+- View Order History
+- Order Details
 
 ---
 
-## Other Features
+## Admin Module
 
-- DTO Pattern
+- Dashboard
+- Product Management
+- Category Management
+
+---
+
+## Frontend Features
+
+- Fully Responsive Design
+- Mobile Friendly
+- Bootstrap Layout
+- React Context API
+- Protected Routing
+- API Integration
+- Error Handling
+- Loading Indicators
+
+---
+
+## Backend Features
+
 - Layered Architecture
-- Global Exception Handling
-- Request Validation
+- DTO Pattern
 - Repository Pattern
+- Service Layer
+- Global Exception Handling
+- Validation
 - Constructor Injection
-- Entity Relationships
+- RESTful APIs
+- JWT Security
+- CORS Configuration
 
 ---
 
-# 🏗️ Project Architecture
+## Docker Features
+
+- Dockerized Spring Boot Backend
+- Dockerized React Frontend
+- Dockerized MySQL
+- Docker Compose
+- Persistent MySQL Volume
+- Environment Variable Configuration
+- Production Build using Nginx
+
+---
+
+# 🏗️ System Architecture
 
 ```
-                Client (React/Postman)
-                        │
-                        ▼
-                 REST Controllers
-                        │
-                        ▼
-                  Service Layer
-                        │
-                        ▼
-             Repository Layer (JPA)
-                        │
-                        ▼
-                     MySQL Database
+                React Frontend
+                     │
+             Axios REST Calls
+                     │
+                     ▼
+          Spring Boot REST APIs
+                     │
+          Spring Security + JWT
+                     │
+                Service Layer
+                     │
+               Repository Layer
+                     │
+              Spring Data JPA
+                     │
+                     ▼
+                  MySQL Database
+```
+
+---
+
+# 🐳 Docker Architecture
+
+```
+                 Docker Compose
+                      │
+      ┌───────────────┼────────────────┐
+      │               │                │
+      ▼               ▼                ▼
+
+ React Container   Spring Boot      MySQL
+     Nginx          Container      Container
+      │               │                │
+      └───────────────┼────────────────┘
+                      │
+                 Docker Network
 ```
 
 ---
@@ -109,38 +217,71 @@ This project demonstrates secure authentication, role-based authorization, RESTf
 
 ```
 User Login
-     │
-     ▼
+
+      │
+
+      ▼
+
 AuthenticationManager
-     │
-     ▼
+
+      │
+
+      ▼
+
 DaoAuthenticationProvider
-     │
-     ▼
+
+      │
+
+      ▼
+
 CustomUserDetailsService
-     │
-     ▼
+
+      │
+
+      ▼
+
 UserRepository
-     │
-     ▼
+
+      │
+
+      ▼
+
 Password Verification
-     │
-     ▼
-JWT Token Generated
-     │
-     ▼
+
+      │
+
+      ▼
+
+JWT Generated
+
+      │
+
+      ▼
+
 Client Stores JWT
-     │
-     ▼
-Authorization: Bearer <TOKEN>
-     │
-     ▼
+
+      │
+
+      ▼
+
+Authorization Header
+
+      │
+
+      ▼
+
 JwtAuthenticationFilter
-     │
-     ▼
+
+      │
+
+      ▼
+
 SecurityContextHolder
-     │
-     ▼
+
+      │
+
+      ▼
+
 Protected APIs
 ```
 
@@ -149,113 +290,120 @@ Protected APIs
 # 📁 Project Structure
 
 ```
-src/main/java
+Java_react_eccomerce
+
 │
-├── config
-│     └── SecurityConfig
+
+├── Eazy_Store
+│   ├── src
+│   ├── Dockerfile
+│   ├── docker-compose.yml
+│   ├── pom.xml
+│   └── .env
+
 │
-├── controller
-│     ├── AuthController
-│     ├── ProductController
-│     ├── CategoryController
-│     ├── CartController
-│     └── OrderController
+├── frontend
+│   ├── src
+│   ├── public
+│   ├── Dockerfile
+│   ├── package.json
+│   └── vite.config.js
+
 │
-├── dto
-│
-├── entity
-│
-├── exception
-│
-├── repository
-│
-├── security
-│     ├── JwtAuthenticationFilter
-│     ├── JwtService
-│     ├── CustomUserDetails
-│     └── CustomUserDetailsService
-│
-├── service
-│
-└── service.impl
+├── README.md
+├── DOCKER_IMPLEMENTATION.md
+└── DOCKER_RUNBOOK.md
 ```
 
 ---
 
-# 🗄️ Database Design
+# 📂 Backend Architecture
 
 ```
-User
-│
-├──────────────┐
-│              │
-▼              ▼
-Cart         Orders
-│              │
-│              ▼
-│          OrderItems
-│
-▼
-Product
-▲
-│
-Category
+config
+
+controller
+
+dto
+
+entity
+
+repository
+
+security
+
+service
+
+service.impl
+
+exception
 ```
 
 ---
 
-# 🔄 Entity Relationships
+# 🎨 Frontend Structure
+
+```
+src
+
+api
+
+assets
+
+components
+
+context
+
+hooks
+
+layouts
+
+pages
+
+routes
+
+utils
+```
+
+---
+
+# 🗄️ Database Relationships
 
 ```
 Category
       │
       └────────────► Product
-          One-To-Many
 
 User
       │
       └────────────► Cart
-          One-To-Many
-
-Product
-      │
-      └────────────► Cart
-          One-To-Many
 
 User
       │
-      └────────────► Order
-          One-To-Many
+      └────────────► Orders
 
 Order
       │
-      └────────────► OrderItem
-          One-To-Many
+      └────────────► OrderItems
 
 Product
       │
-      └────────────► OrderItem
-          Many-To-One
+      └────────────► OrderItems
 ```
 
 ---
 
-# 🔒 API Authorization
+# 🔒 Authorization Matrix
 
 | API | USER | ADMIN |
-|------|:----:|:-----:|
+|------|------|-------|
 | Register | ✅ | ✅ |
 | Login | ✅ | ✅ |
 | View Products | ✅ | ✅ |
-| Create Product | ❌ | ✅ |
-| Update Product | ❌ | ✅ |
-| Delete Product | ❌ | ✅ |
-| View Categories | ✅ | ✅ |
-| Create Category | ❌ | ✅ |
-| Update Category | ❌ | ✅ |
-| Delete Category | ❌ | ✅ |
-| Cart APIs | ✅ | ✅ |
-| Order APIs | ✅ | ✅ |
+| Product CRUD | ❌ | ✅ |
+| Category CRUD | ❌ | ✅ |
+| Cart | ✅ | ✅ |
+| Orders | ✅ | ✅ |
 
 ---
 
@@ -273,11 +421,10 @@ POST /api/v1/auth/login
 ## Products
 
 ```
-GET    /api/v1/products
-GET    /api/v1/products/{id}
-POST   /api/v1/products
-PUT    /api/v1/products/{id}
-DELETE /api/v1/products/{id}
+GET
+POST
+PUT
+DELETE
 ```
 
 ---
@@ -285,11 +432,10 @@ DELETE /api/v1/products/{id}
 ## Categories
 
 ```
-GET    /api/v1/categories
-GET    /api/v1/categories/{id}
-POST   /api/v1/categories
-PUT    /api/v1/categories/{id}
-DELETE /api/v1/categories/{id}
+GET
+POST
+PUT
+DELETE
 ```
 
 ---
@@ -297,10 +443,10 @@ DELETE /api/v1/categories/{id}
 ## Cart
 
 ```
-POST   /api/v1/cart
-GET    /api/v1/cart
-PUT    /api/v1/cart/{id}
-DELETE /api/v1/cart/{id}
+GET
+POST
+PUT
+DELETE
 ```
 
 ---
@@ -308,9 +454,8 @@ DELETE /api/v1/cart/{id}
 ## Orders
 
 ```
-POST   /api/v1/orders
-GET    /api/v1/orders
-GET    /api/v1/orders/{id}
+GET
+POST
 ```
 
 ---
@@ -320,71 +465,118 @@ GET    /api/v1/orders/{id}
 - Spring Boot
 - Spring MVC
 - Spring Security
-- JWT Authentication
+- JWT
 - AuthenticationManager
-- AuthenticationProvider
-- DaoAuthenticationProvider
-- UserDetails
-- UserDetailsService
 - SecurityFilterChain
-- BCrypt Password Encoder
+- BCrypt
 - Spring Data JPA
-- Hibernate ORM
+- Hibernate
 - Bean Validation
-- Exception Handling
 - Dependency Injection
 - Constructor Injection
+- Exception Handling
 
 ---
 
-# ▶️ Running the Project
+# ⚛️ React Concepts Used
+
+- Functional Components
+- Hooks
+- Context API
+- React Router
+- Axios
+- Responsive Design
+- Bootstrap
+- State Management
+
+---
+
+# 🐳 Running Using Docker
 
 ## Clone Repository
 
 ```bash
-git clone https://github.com/your-username/EazyStore-Backend.git
+git clone https://github.com/Piyush-droid996/Java_react_eccomerce.git
 ```
 
 ---
 
-## Configure Database
-
-Update `application.properties`
-
-```properties
-spring.datasource.url=jdbc:mysql://localhost:3306/eazystore
-spring.datasource.username=root
-spring.datasource.password=yourpassword
-
-spring.jpa.hibernate.ddl-auto=update
-```
-
----
-
-## Run Application
+## Navigate
 
 ```bash
-mvn spring-boot:run
+cd Java_react_eccomerce/Eazy_Store
 ```
 
-Application runs on
+---
+
+## Start Containers
+
+```bash
+docker compose up --build -d
+```
+
+---
+
+## Stop Containers
+
+```bash
+docker compose down
+```
+
+---
+
+## View Running Containers
+
+```bash
+docker ps
+```
+
+---
+
+## View Logs
+
+```bash
+docker compose logs -f
+```
+
+---
+
+# 🌐 Application URLs
+
+Frontend
+
+```
+http://localhost:3000
+```
+
+Backend
 
 ```
 http://localhost:8080
 ```
 
+MySQL
+
+```
+localhost:3306
+```
+
 ---
 
-# 📌 Future Enhancements
+# 📈 Future Enhancements
 
-- Swagger / OpenAPI Documentation
+- Product Search
 - Pagination
 - Sorting
-- Product Search
-- Docker
-- Unit Testing (JUnit & Mockito)
-- React Frontend
-- Deployment
+- Wishlist
+- Payment Gateway
+- Email Notifications
+- Swagger Documentation
+- Unit Testing
+- Integration Testing
+- CI/CD Pipeline
+- Kubernetes Deployment
+- AWS Deployment
 
 ---
 
@@ -392,10 +584,13 @@ http://localhost:8080
 
 **Piyush Saxena**
 
-- Java Developer
-- Spring Boot Developer
-- React Developer
+Java Full Stack Developer
+
+Java • Spring Boot • React • MySQL • Docker • JWT • REST APIs
+
+GitHub:
+https://github.com/Piyush-droid996
 
 ---
 
-## ⭐ If you found this project useful, don't forget to star the repository!
+⭐ If you found this project useful, please consider giving it a Star.
