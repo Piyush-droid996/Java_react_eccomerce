@@ -9,7 +9,6 @@ import com.eazybytes.eazystore.service.UserService;
 
 @RestController
 @RequestMapping("/api/v1/admin/users")
-@CrossOrigin(origins = "http://localhost:5173")
 public class UserController {
 
     private final UserService userService;

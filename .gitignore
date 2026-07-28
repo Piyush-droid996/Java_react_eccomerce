@@ -1,3 +1,35 @@
+# Metadata
 .metadata/
-node_modules/
+
+# Java build
 target/
+*.class
+
+# Backend
+Eazy_Store/target/
+Eazy_Store/.env
+
+# Frontend
+frontend/node_modules/
+frontend/dist/
+
+# Environment variables
+.env
+*.env
+
+# Logs
+*.log
+
+# Eclipse / Spring Tool Suite
+.classpath
+.project
+.settings/
+.factorypath
+
+# IntelliJ
+.idea/
+*.iml
+
+# OS files
+.DS_Store
+Thumbs.db

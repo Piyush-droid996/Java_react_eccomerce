@@ -19,7 +19,6 @@ import io.swagger.v3.oas.annotations.parameters.RequestBody;
 
 @RestController
 @RequestMapping("/api/v1/admin")
-@CrossOrigin(origins = "http://localhost:5173")
 public class AdminController {
 
     private final DashboardService dashboardService;
