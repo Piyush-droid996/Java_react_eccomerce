@@ -6,7 +6,7 @@ The project demonstrates enterprise-level architecture, secure authentication, R
 
 ---
 
-# 🚀 Live Demo
+# Live Demo
 
 Frontend:
 https://java-react-eccomerce.vercel.app/
